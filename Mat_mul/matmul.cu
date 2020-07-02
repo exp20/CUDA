@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 	int *C = new int[SIZE];  //сюды записывается результат
 
 	// заполняем матрицы рандомными числами
-	for (int i = 0; i < SIZE*SIZE; i++)
+	for (int i = 0; i < SIZE; i++)
 	{
 		A[i] = rand();
 		B[i] = rand();

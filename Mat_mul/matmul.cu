@@ -33,9 +33,9 @@ int main(int argc, char* argv[]) {
 	printf("Size %d\n", N);
 	// Выделение памяти на хосту для хранения далее сгенерированных матриц
 	// Матрицы хранятся в виде одномерных векторов размером NxN
-	int *A = (int*)malloc(SIZE * sizeof(int));
-	int *B = (int*)malloc(SIZE * sizeof(int));
-	int *C = (int*)malloc(SIZE * sizeof(int));  //сюды записывается результат
+	int *A = new int[SIZE];
+	int *B = new int[SIZE];
+	int *C = new int[SIZE];  //сюды записывается результат
 
 	// заполняем матрицы рандомными числами
 	for (int i = 0; i < SIZE*SIZE; i++)
@@ -43,8 +43,26 @@ int main(int argc, char* argv[]) {
 		A[i] = rand();
 		B[i] = rand();
 	}
+	
+	if (Flag == 0){
+		clock_t startTime = clock();
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				for (int k = 0; k < N; ++k)
+				{
+					C[i * N + j] += A[i * N + k] * B[k * N + j];
+				}
+			
+		}
+	}
+		clock_t endTime = clock();
 
-
+		clock_t clockTicksTaken = endTime - startTime;
+		double timeInSeconds = clockTicksTaken / (double)CLOCKS_PER_SEC;
+		cout<<"\nclockTicksTaken "<< timeInSeconds <<endl;	
+	}
+		
+	if (Flag == 1){
 	// Выделение памяти на device (GPU) для сгенерированных матриц
 	int *d_A, *d_B, *d_C;
 	cudaError_t  err_flag1 = cudaMalloc(&d_A, SIZE * sizeof(int));
@@ -142,3 +160,5 @@ int main(int argc, char* argv[]) {
 	free(B);
 	free(C);
 	return 0;
+	}
+}
